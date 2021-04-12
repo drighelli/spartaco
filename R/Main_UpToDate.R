@@ -29,11 +29,14 @@ main <- function(x, K, R, coordinates, Dist,
     Dglob[cur.Ds == r] <- eigK$val
   }
 
-  # why do we need this?
-  ll <- -1e+40
+  # I think this is better? But can we get rid of this and start the for loop from 1?
+  ll <- numeric(max.iter)
+  ll[1] <- -1e+40
 
-  i <- 1
-  for(i in seq_len(max.iter)){
+  # I had to add the following line to make it work, but I'm not sure it's correct
+  logL.values <- matrix(NA, nrow=K, ncol=R)
+
+  for(i in seq_len(max.iter)[-1]){
 
     if(verbose) cat(paste("---Iteration",i,"\n"))
     for(r in seq_len(R)){
