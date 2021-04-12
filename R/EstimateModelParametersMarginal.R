@@ -1,4 +1,4 @@
-Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x, 
+Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
                                                                     U,
                                                                     d,
                                                                     mu0,
@@ -8,7 +8,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
                                                                     traceDelta = 5000,
                                                                     maxit = 200,
                                                                     threshold = 1e-4,
-                                                                    print.conv.warning = F){
+                                                                    print.conv.warning = FALSE){
   n <- nrow(x)
   p <- ncol(x)
   Mu <- cur.mu <- mu0
@@ -20,7 +20,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
   bl1 <- x %*% U
   bl2 <- matrix(1, n, p) %*% U
   cur.xi <- traceDelta/p - cur.tau
-  for(i in 2:maxit){
+  for(i in seq_len(maxit)[-1]){
     # --update mu
     routine.mu <- optim(par = cur.mu, fn = function(mu){
       sum(
@@ -33,7 +33,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
       stop("Convergence error in mu!")
     }
     cur.mu <- routine.mu$par
-    
+
     # --update alpha
     quadratic <- diag((bl1 - cur.mu * bl2) %*% diag(1/(cur.tau * d + cur.xi)) %*% t(bl1 - cur.mu * bl2))/2
     routine.alpha <- optim(cur.alpha, function(a){
@@ -45,7 +45,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
       stop("Convergence error in alpha!")
     }
     cur.alpha <- routine.alpha$par
-    
+
     # --update beta
     routine.beta <- optim(cur.beta, function(b){
       if(b <= 0) return(-Inf)
@@ -54,16 +54,16 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
       stop("Convergence error in beta!")
     }
     cur.beta <- routine.beta$par
-    
+
     # --update tau and xi
     Block1 <- bl1 - cur.mu * bl2
     starting.tau <- ifelse(cur.tau < traceDelta/p, cur.tau, runif(1, 1e-7, traceDelta/p))
-    routine.tau <- optim(starting.tau, 
+    routine.tau <- optim(starting.tau,
                          fn = function(taup){
                            if(taup <= 0) return(-Inf)
                            xip <- traceDelta/p - taup
                            -(
-                             -n/2*sum(log(taup * d + xip)) - 
+                             -n/2*sum(log(taup * d + xip)) -
                                (p/2+cur.alpha) * sum(log(diag(Block1 %*% diag(1/(taup * d + xip)) %*% t(Block1))/2 + cur.beta))
                            )
                          }, control = list(maxit = 1000))
@@ -72,19 +72,19 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
     }
     cur.tau <- routine.tau$par
     cur.xi <- traceDelta/p - cur.tau
-    
+
     Mu[i] <- cur.mu
     Alpha[i] <- cur.alpha
     Beta[i] <- cur.beta
     Tau[i] <- cur.tau
-    if(abs(diff(Mu)[i-1]) < threshold & 
+    if(abs(diff(Mu)[i-1]) < threshold &
        abs(diff(Alpha)[i-1]) < threshold &
        abs(diff(Beta)[i-1]) < threshold &
        abs(diff(Tau)[i-1]) < threshold){
       converged <- T
       break}
   }
-  if(converged == F & print.conv.warning) cat("Warning: max-it reached without convergence!")
+  if(!converged & print.conv.warning) warning("maxoit reached without convergence!")
   return(list(mu = Mu[i],
               alpha = Alpha[i],
               beta = Beta[i],
@@ -95,7 +95,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace <- function(x,
 }
 
 
-Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x, 
+Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x,
                                                                             U,
                                                                             d,
                                                                             mu0,
@@ -121,7 +121,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x,
     )*(p/2 + cur.alpha)
   }, hessian = T)
   cur.mu <- routine.mu$par
-  
+
   # --update alpha
   quadratic <- diag((bl1 - cur.mu * bl2) %*% diag(1/(cur.tau * d + cur.xi)) %*% t(bl1 - cur.mu * bl2))/2
   routine.alpha <- optim(cur.alpha, function(a){
@@ -132,7 +132,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x,
   if(routine.alpha$convergence != 0){
     stop("Convergence error in alpha!")}
   cur.alpha <- routine.alpha$par
-  
+
   # --update beta
   routine.beta <- optim(cur.beta, function(b){
     if(b <= 0) return(-Inf)
@@ -140,7 +140,7 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x,
   if(routine.beta$convergence != 0){
     stop("Convergence error in beta!")}
   cur.beta <- routine.beta$par
-  
+
   # --update tau and xi
   Block1 <- bl1 - cur.mu * bl2
   starting.tau <- ifelse(cur.tau < traceDelta/p, cur.tau, runif(1, 1e-7, traceDelta/p))
@@ -148,10 +148,10 @@ Estimate.Cocluster.Parameters.marginal.constraint.trace.hessian <- function(x,
                        fn = function(taup){
                          xip <- traceDelta/p - taup
                          -(
-                           -n/2*sum(log(taup * d + xip)) - 
+                           -n/2*sum(log(taup * d + xip)) -
                              (p/2+cur.alpha) * sum(log(diag(Block1 %*% diag(1/(taup * d + xip)) %*% t(Block1))/2 + cur.beta))
                          )
-                       }, hessian = T, lower = 1e-16, upper = traceDelta/p - 1e-16)
+                       }, hessian = TRUE, lower = 1e-16, upper = traceDelta/p - 1e-16)
   #if(routine.tau$convergence != 0){
   #  stop(paste("Convergence of tau has produced",routine.tau$convergence,"\n"))}
   cur.tau <- routine.tau$par

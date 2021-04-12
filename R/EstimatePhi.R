@@ -1,6 +1,7 @@
-library(Matrix)
+updatePhi_r_marginal <- function(x, Cs, Dist, Mu, Tau, Xi, Alpha, Beta,
+                                 phi.old = 1, maxit = 200, eps = 1e-4,
+                                 hessian = FALSE) {
 
-updatePhi_r_marginal <- function(x, Cs, Dist, Mu, Tau, Xi, Alpha, Beta, phi.old = 1, maxit = 200, eps = 1e-4, hessian = F){
   n_k <- as.vector(table(Cs))
   K <- length(n_k)
   routine.phi <- optim(par = phi.old, fn = function(phi){
@@ -16,7 +17,7 @@ updatePhi_r_marginal <- function(x, Cs, Dist, Mu, Tau, Xi, Alpha, Beta, phi.old 
     -val
   }, hessian = hessian)
   if(routine.phi$conv != 0) stop("Converge error in Phi!")
-  if(hessian == F) return(routine.phi$par) else
+  if(!hessian) return(routine.phi$par) else
     return(routine.phi)
 }
 

@@ -1,8 +1,11 @@
-MetropolisAllocation <- function(x, Cs, Ds, 
+MetropolisAllocation <- function(x, Cs, Ds,
                                  Uglob, # list of matrices of length R, contains the matrices of eigenvec
                                  Dglob, # vector of length p, contains the eigenval
-                                 Dist, 
-                                 Mu, Tau, Xi, Alpha, Beta, Phi, maxit = 10, min.obs = 3, prob.choices = c(1/2,1/2), print.info = F){
+                                 Dist,
+                                 Mu, Tau, Xi, Alpha, Beta, Phi, maxit = 10,
+                                 min.obs = 3, prob.choices = c(1/2,1/2),
+                                 print.info = FALSE) {
+
   if(length(prob.choices) != 2) stop("Wrong probabilities input")
   if(is.null(prob.choices)) prob.choices <- rep(1/3,3)
   K <- length(table(Cs))
@@ -14,17 +17,18 @@ MetropolisAllocation <- function(x, Cs, Ds,
   if(is.vector(Beta)) Beta <- matrix(Beta, K, R)
   D <- as.vector(table(Ds))
   Ds.init <- Ds
-  accepted <- F
+  accepted <- FALSE
   accepted <- m.list <- numeric(maxit)
   logL.values <- matrix(0,K,R)
   for(r in 1:R){
     for(k in 1:K){
-      logL.values[k,r] <- logL.Cocluster(x = x[Cs == k, Ds == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r], 
+      logL.values[k,r] <- logL.Cocluster(x = x[Cs == k, Ds == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r],
                                          Beta = Beta[k,r], U = Uglob[[r]], d = Dglob[Ds == r])
     }
   }
   logL.den <- sum(logL.values)
-  for(iter in 1:maxit){
+  for(iter in seq_len(maxit)) {
+
     m <- m.list[iter] <- sample(1:3,1, prob = c(.7,.2,.1))#sample(1:4, 1, prob = c(.4, .3, .2, .1))
     move <- sample(c("sasd","mamd"), size = 1, prob = prob.choices)
     if(move == "sasd"){
@@ -43,7 +47,7 @@ MetropolisAllocation <- function(x, Cs, Ds,
         Uglob.star[[r]] <- eigK$vec
         Dglob.star[Ds.star == r] <- eigK$val
         for(k in 1:K){
-          logL.values.star[k,r] <- logL.Cocluster(x = x[Cs == k, Ds.star == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r], 
+          logL.values.star[k,r] <- logL.Cocluster(x = x[Cs == k, Ds.star == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r],
                                              Beta = Beta[k,r], U = Uglob.star[[r]], d = Dglob.star[Ds.star == r])
         }
       }
@@ -62,11 +66,11 @@ MetropolisAllocation <- function(x, Cs, Ds,
     }
     if(move == "mamd"){
       if(print.info) cat(paste("Trying mamd with",m,"moves\n"))
-      gr.start <- sample(1:R, m, replace = T)
+      gr.start <- sample(1:R, m, replace = TRUE)
       gr.end <- sapply(1:m, function(k) sample(setdiff(1:R, gr.start[k]), 1))
       q1r <- sapply(1:R, function(r) sum(gr.start == r))
       q2r <- sapply(1:R, function(r) sum(gr.end == r))
-      j <- sapply(1:R, function(r) ifelse(q1r[r] != 0, return(sample(1:D[r], q1r[r], replace = F)), 0))
+      j <- sapply(1:R, function(r) ifelse(q1r[r] != 0, return(sample(1:D[r], q1r[r], replace = FALSE)), 0))
       Ds.star <- Ds
       for(r in which(q1r != 0)) Ds.star[which(Ds == r)][j[[r]]] <- gr.end[gr.start == r]
       to.be.changed <- unique(c(gr.start, gr.end))
@@ -78,7 +82,7 @@ MetropolisAllocation <- function(x, Cs, Ds,
         Uglob.star[[r]] <- eigK$vec
         Dglob.star[Ds.star == r] <- eigK$val
         for(k in 1:K){
-          logL.values.star[k,r] <- logL.Cocluster(x = x[Cs == k, Ds.star == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r], 
+          logL.values.star[k,r] <- logL.Cocluster(x = x[Cs == k, Ds.star == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r],
                                                   Beta = Beta[k,r], U = Uglob.star[[r]], d = Dglob.star[Ds.star == r])
         }
       }
@@ -95,8 +99,8 @@ MetropolisAllocation <- function(x, Cs, Ds,
         Dglob <- Dglob.star
         accepted[iter] <- 1}
     }
-  } 
-  results <- list(Ds = Ds, Uglob = Uglob, Dglob = Dglob, logL = logL.den, logL.values = logL.values, 
+  }
+  results <- list(Ds = Ds, Uglob = Uglob, Dglob = Dglob, logL = logL.den, logL.values = logL.values,
                   accepted = sum(Ds != Ds.init), m.list = m.list)
   return(results)
 }
