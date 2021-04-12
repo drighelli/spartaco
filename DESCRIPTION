@@ -3,10 +3,18 @@ Title: Co-Clustering of Spatial Transcriptomics Data
 Version: 0.99.0
 Date: 2021-04-12
 Authors@R: 
-    person(given = "Dario",
+    c(person(given = "Dario",
            family = "Righelli",
            role = c("aut", "cre"),
-           email = "dario.righelli@gmail.com")
+           email = "dario.righelli@gmail.com"),
+      person(given = "Andrea",
+           family = "Sottosanti",
+           role = "aut",
+           email = "andrea.sottosanti@unipd.it"),
+      person(given = "Davide",
+           family = "Risso",
+           role = "aut",
+           email = "risso.davide@gmail.com"))
 Description: 
     Implements a co-clustering model that includes spatial dendencies among 
     samples. It can be used to identify cell types and spatially variable genes
