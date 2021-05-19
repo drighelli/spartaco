@@ -125,15 +125,14 @@ main <- function(x, K, R, coordinates, Dist,
 
   plot(coordinates, col = cur.Ds, pch = 16)
 
-  # should it return best or cur?
   return(list(
-    phi = cur.phi,
-    mu = cur.mu,
-    tau = cur.tau,
-    xi = cur.xi,
-    alpha = cur.alpha,
-    beta = cur.beta,
-    Cs = cur.Cs,
-    Ds = cur.Ds
+    phi = best.phi,
+    mu = best.mu,
+    tau = best.tau,
+    xi = best.xi,
+    alpha = best.alpha,
+    beta = best.beta,
+    Cs = best.Cs,
+    Ds = best.Ds
   ))
 }
