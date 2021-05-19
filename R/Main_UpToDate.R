@@ -123,7 +123,7 @@ main <- function(x, K, R, coordinates, Dist,
     if(i %% 20 == 0) save.image(tempfile())
   }
 
-  plot(coordinates, col = cur.Ds, pch = 16)
+  plot(coordinates, col = best.Ds, pch = 16)
 
   return(list(
     phi = best.phi,
