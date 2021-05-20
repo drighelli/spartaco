@@ -8,7 +8,7 @@
 #' @examples
 #' library(SpatialExperiment)
 #' example(SpatialExperiment)
-#' spartaco(se)
+#' # spartaco(se)
 spartaco <- function(spe,
                      K = 2,
                      R = 4,

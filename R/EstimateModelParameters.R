@@ -44,8 +44,8 @@ Estimate.Cocluster.Parameters.constraint.trace <- function(x,
     # --update alpha
     #print(sum(is.nan(expected[,2])))
     routine.alpha <- optim(cur.alpha, function(a){
-      if(a <= 0) return(-Inf)
-      -(-a*sum(expected[,2]) + (n)*(a*log(cur.beta) - lgamma(a)))})
+      -(-a*sum(expected[,2]) + (n)*(a*log(cur.beta) - lgamma(a)))},
+      method = "L-BFGS-B", lower = 1e-7)
     if(routine.alpha$convergence != 0){
       stop("Convergence error in alpha!")
     }
@@ -58,13 +58,12 @@ Estimate.Cocluster.Parameters.constraint.trace <- function(x,
     starting.tau <- ifelse(cur.tau < traceDelta/p, cur.tau, runif(1, 1e-7, traceDelta/p))
     routine.tau.xi <- optim(starting.tau,
                             fn = function(val){
-                              if(val <= 0 | val >= traceDelta/p) return(-Inf)
                               xi <- traceDelta/p-val
                               invD.prop <- 1/(val*d+xi)
                               -(
                                 n/2*sum(log(invD.prop)) - .5 * sum(expected[,1] * diag(Block1 %*% diag(invD.prop) %*% t(Block1)))
                               )
-                            })
+                            }, method = "L-BFGS-B", lower = 0, upper = traceDelta/p)
     if(routine.tau.xi$convergence != 0){
       stop("Convergence error in tau!")
     }
