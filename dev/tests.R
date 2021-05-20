@@ -23,3 +23,31 @@ plot(Simulation$coordinates, pch=19, col=res$Ds)
 old_res <- readRDS("dev/old_res.rds")
 table(res$Cs, old_res$Cs)
 table(res$Ds, old_res$Ds)
+
+#### Metropolis tests
+#### input main
+x<-Simulation$x
+K=2
+R=2
+coordinates<-Simulation$coordinates
+Dist<-Dist
+traceRatio = 10
+max.iter = 10
+metropolis.iterations = 150
+estimate.iterations = 10
+verbose = TRUE
+#### input metropolis i=2
+x = x
+Uglob = Uglob
+Dglob = Dglob
+Cs = cur.Cs
+Ds = cur.Ds
+Dist = Dist
+Mu = cur.mu
+Tau = cur.tau
+Xi = cur.xi
+Alpha = cur.alpha
+Beta = cur.beta
+Phi = cur.phi
+maxit = metropolis.iterations
+min.obs = 3
