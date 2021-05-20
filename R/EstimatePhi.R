@@ -15,7 +15,7 @@ updatePhi_r_marginal <- function(x, Cs, Dist, Mu, Tau, Xi, Alpha, Beta,
       val <- val - n_k[k]/2*sum(log(Tau[k]*eig$val + Xi[k])) - sum(alpha.i * log(beta.i))
     }
     -val
-  }, hessian = hessian)
+  }, hessian = hessian, method = "BFGS")
   if(routine.phi$conv != 0) stop("Converge error in Phi!")
   if(!hessian) return(routine.phi$par) else
     return(routine.phi)

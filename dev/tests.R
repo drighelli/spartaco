@@ -1,17 +1,25 @@
 library(devtools)
 load_all()
-load("dev/Simulation_combtau1_combscales1_difftauscales.Rdata")
+load("data/400x400.Rdata")
 
 Dist <- as.matrix(stats::dist(Simulation$coordinates))
 
-# version without save.image: 1891
-# save.image version: 1913
 set.seed(221)
-system.time(res2 <- main(Simulation$x, K=2, R=4, Simulation$coordinates, Dist,
+system.time(res <- main(Simulation$x, K=2, R=2, Simulation$coordinates, Dist,
             traceRatio = 10,
             max.iter = 10,
-            metropolis.iterations = 15,
+            metropolis.iterations = 150,
             estimate.iterations = 10,
             verbose = TRUE))
 
-# saveRDS(res, file = "dev/res_v1.rds")
+table(Simulation$original.Cs, res$Cs)
+table(Simulation$original.Ds, res$Ds)
+
+plot(Simulation$coordinates, pch=19, col=Simulation$original.Ds)
+plot(Simulation$coordinates, pch=19, col=res$Ds)
+
+#saveRDS(res, file = "dev/old_res.rds")
+
+old_res <- readRDS("dev/old_res.rds")
+table(res$Cs, old_res$Cs)
+table(res$Ds, old_res$Ds)
