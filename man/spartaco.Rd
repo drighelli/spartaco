@@ -4,7 +4,17 @@
 \alias{spartaco}
 \title{Spartaco co-clustering}
 \usage{
-spartaco(spe, K = 2, R = 4, method = c("default", "marginal"))
+spartaco(
+  spe,
+  K = 2,
+  R = 4,
+  method = c("default", "marginal"),
+  traceRatio = 10,
+  max.iter = 1000,
+  metropolis.iterations = 150,
+  estimate.iterations = 10,
+  verbose = FALSE
+)
 }
 \description{
 This function will return the estimated parameters and the co-cluster labels.
@@ -12,5 +22,5 @@ This function will return the estimated parameters and the co-cluster labels.
 \examples{
 library(SpatialExperiment)
 example(SpatialExperiment)
-spartaco(se)
+# spartaco(se)
 }

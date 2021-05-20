@@ -21,7 +21,10 @@ Description:
     in spatial transcriptomics studies.
 Imports:
     Matrix,
-    invgamma
+    invgamma,
+    Rcpp (>= 1.0.6),
+    SpatialExperiment
+LinkingTo: Rcpp, RcppArmadillo
 License: Artistic-2.0
 URL: https://github.com/drighelli/spartaco
 BugReports: https://support.bioconductor.org/t/spartaco
