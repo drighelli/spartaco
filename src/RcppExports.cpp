@@ -6,6 +6,24 @@
 
 using namespace Rcpp;
 
+// logLCoclusterC
+double logLCoclusterC(arma::Mat<double> x, double Mu, double Tau, double Xi, double Alpha, double Beta, arma::Mat<double> U, arma::rowvec d);
+RcppExport SEXP _spartaco_logLCoclusterC(SEXP xSEXP, SEXP MuSEXP, SEXP TauSEXP, SEXP XiSEXP, SEXP AlphaSEXP, SEXP BetaSEXP, SEXP USEXP, SEXP dSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::Mat<double> >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type Mu(MuSEXP);
+    Rcpp::traits::input_parameter< double >::type Tau(TauSEXP);
+    Rcpp::traits::input_parameter< double >::type Xi(XiSEXP);
+    Rcpp::traits::input_parameter< double >::type Alpha(AlphaSEXP);
+    Rcpp::traits::input_parameter< double >::type Beta(BetaSEXP);
+    Rcpp::traits::input_parameter< arma::Mat<double> >::type U(USEXP);
+    Rcpp::traits::input_parameter< arma::rowvec >::type d(dSEXP);
+    rcpp_result_gen = Rcpp::wrap(logLCoclusterC(x, Mu, Tau, Xi, Alpha, Beta, U, d));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpparma_hello_world
 arma::mat rcpparma_hello_world();
 RcppExport SEXP _spartaco_rcpparma_hello_world() {
@@ -51,6 +69,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_spartaco_logLCoclusterC", (DL_FUNC) &_spartaco_logLCoclusterC, 8},
     {"_spartaco_rcpparma_hello_world", (DL_FUNC) &_spartaco_rcpparma_hello_world, 0},
     {"_spartaco_rcpparma_outerproduct", (DL_FUNC) &_spartaco_rcpparma_outerproduct, 1},
     {"_spartaco_rcpparma_innerproduct", (DL_FUNC) &_spartaco_rcpparma_innerproduct, 1},

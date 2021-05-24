@@ -51,3 +51,20 @@ Beta = cur.beta
 Phi = cur.phi
 maxit = metropolis.iterations
 min.obs = 3
+
+
+## logcoclustR
+x = x[Cs == k, Ds.star == r];
+Mu = Mu[k,r];
+Tau = Tau[k,r];
+Xi = Xi[k,r];
+Alpha = Alpha[k,r];
+Beta = Beta[k,r];
+U = Uglob.star[[r]];
+d = Dglob.star[Ds.star == r];
+
+
+# test logcoclustC
+logLCoclusterC(x[Cs == k, Ds.star == r], Mu[k,r], Tau[k,r], Xi[k,r], Alpha[k,r],
+               Beta[k,r], Uglob.star[[r]], Dglob.star[Ds.star == r])
+
