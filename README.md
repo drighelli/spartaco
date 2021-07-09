@@ -7,7 +7,7 @@
 
 <!-- badges: end -->
 
-The goal of `spartaco` is to …
+`spartaco` implements a novel statistical approach for detecting spatially expressed genes in sub-groups of spots in spatial transcriptomic experiments. Details of the statistical model will be published soon. A preliminary version of the model is described in [this presentation](https://eurobioc2020.bioconductor.org/slides/Sottosanti.pdf).
 
 ## Installation instructions
 
