@@ -26,7 +26,5 @@ Let `x` be the spatial experiment matrix containing the expression of `nrow(x)` 
 
 ``` r
 library(spartaco)
-spartaco(x = x, coordinates = coordinates, 
-         K = K,
-         R = R) 
+spartaco(x = x, coordinates = coordinates, K = K, R = R) 
 ```
