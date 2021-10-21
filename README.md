@@ -3,6 +3,8 @@
 
 # SPAtially Resolved TrAnscriptomics CO-clustering (SpaRTaCo)
 
+by A. Sottosanti, D. Righelli and D. Risso
+
 <!-- badges: start -->
 
 <!-- badges: end -->
