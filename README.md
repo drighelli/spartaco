@@ -15,5 +15,5 @@ Install the development version from
 [GitHub](https://github.com/andreasottosanti/spartaco) with:
 
 ``` r
-BiocManager::install("drighelli/spartaco")
+BiocManager::install("andreasottosanti/spartaco")
 ```
