@@ -9,14 +9,14 @@
 #' library(SpatialExperiment)
 #' example(SpatialExperiment)
 #' # spartaco(se)
-spartaco <- function(spe,
+SpaRTaCo <- function(spe,
                      K = 2,
                      R = 4,
-                     method = c("default", "marginal"),
                      traceRatio = 10,
                      max.iter = 1000,
                      metropolis.iterations = 150,
                      estimate.iterations = 10,
+                     input.values = NULL,
                      verbose = FALSE
                      ) {
     x <- assay(spe)
@@ -24,15 +24,11 @@ spartaco <- function(spe,
 
     Dist <- as.matrix(stats::dist(coordinates))
 
-    if(method == "default") {
-        main(x, K, R, coordinates, Dist,
-             traceRatio = traceRatio,
-             max.iter = max.iter,
-             metropolis.iterations = metropolis.iterations,
-             estimate.iterations = estimate.iterations,
-             verbose = verbose)
-    } else if(method == "marginal") {
-        stop("Not implemented yet.")
-    }
-
+    main(x, K, R, coordinates, Dist,
+         traceRatio = traceRatio,
+         max.iter = max.iter,
+         metropolis.iterations = metropolis.iterations,
+         estimate.iterations = estimate.iterations,
+         input.values = input.values,
+         verbose = verbose)
 }
