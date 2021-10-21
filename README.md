@@ -17,3 +17,14 @@ Install the development version from
 ``` r
 BiocManager::install("andreasottosanti/spartaco")
 ```
+
+## Run the model
+
+Let `x` be the spatial experiment matrix containing the expression of `nrow(x)` genes measured over `ncol(x)` spots. The spatial coordinates of the spots are contained into the matrix `coordinates`. Let assume we want to find $K$ clusters of genes and $R$ clusters of spots. You can run SpaRTaCo with the following code:
+
+``` r
+library(spartaco)
+spartaco(x = x, coordinates = coordinates, 
+         K = K,
+         R = R) 
+```
