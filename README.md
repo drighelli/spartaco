@@ -12,7 +12,7 @@
 ## Installation instructions
 
 Install the development version from
-[GitHub](https://github.com/drighelli/spartaco) with:
+[GitHub](https://github.com/andreasottosanti/spartaco) with:
 
 ``` r
 BiocManager::install("drighelli/spartaco")
