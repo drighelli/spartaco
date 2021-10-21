@@ -9,7 +9,8 @@
 #' library(SpatialExperiment)
 #' example(SpatialExperiment)
 #' # spartaco(se)
-SpaRTaCo <- function(spe,
+spartaco <- function(x,
+                     coordinates,
                      K = 2,
                      R = 4,
                      traceRatio = 10,
@@ -19,12 +20,12 @@ SpaRTaCo <- function(spe,
                      input.values = NULL,
                      verbose = FALSE
                      ) {
-    x <- assay(spe)
-    coordinates <- spatialCoords(spe)
 
     Dist <- as.matrix(stats::dist(coordinates))
 
-    main(x, K, R, coordinates, Dist,
+    main(x = x, 
+         Dist = Dist,
+         K = K, R = K, 
          traceRatio = traceRatio,
          max.iter = max.iter,
          metropolis.iterations = metropolis.iterations,
