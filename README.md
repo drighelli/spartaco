@@ -7,7 +7,7 @@
 
 <!-- badges: end -->
 
-`spartaco` implements a novel statistical approach for detecting spatially expressed genes in sub-groups of spots in spatial transcriptomic experiments. Details of the statistical model will be published soon. A preliminary version of the model is described in [this presentation](https://eurobioc2020.bioconductor.org/slides/Sottosanti.pdf).
+`spartaco` implements a novel statistical approach for detecting spatially expressed genes in sub-groups of spots in spatial transcriptomic experiments. Details of the statistical model appear in the article *Co-clustering of Spatially Resolved Transcriptomic Data* by A. Sottosanti and D. Risso.* [(link)](https://arxiv.org/abs/2110.04872).
 
 ## Installation instructions
 
