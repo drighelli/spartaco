@@ -9,10 +9,6 @@ spartaco(x, coordinates, K = 2, R = 4)
 \description{
 This function will return the estimated parameters and the co-clustering labels.
 }
-\values{
-- `Cs`: row clustering labels
-- `Ds`: column clustering labels
-}
 \examples{
 library(SpatialExperiment)
 example(SpatialExperiment)
