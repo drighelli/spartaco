@@ -4,10 +4,14 @@
 \alias{spartaco}
 \title{Spartaco co-clustering}
 \usage{
-spartaco(spe, K = 2, R = 4, method = c("default", "marginal"))
+spartaco(x, coordinates, K = 2, R = 4)
 }
 \description{
-This function will return the estimated parameters and the co-cluster labels.
+This function will return the estimated parameters and the co-clustering labels.
+}
+\values{
+- `Cs`: row clustering labels
+- `Ds`: column clustering labels
 }
 \examples{
 library(SpatialExperiment)
