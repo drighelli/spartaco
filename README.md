@@ -28,3 +28,25 @@ Let `x` be the spatial experiment matrix containing the expression of `nrow(x)` 
 library(spartaco)
 spartaco(x = x, coordinates = coordinates, K = K, R = R) 
 ```
+
+The model can be run also from pre-defined starting points. They can be set as follows:
+
+```r
+input.values <- list(
+        phi = rep(1,K),
+        mu = matrix(0,K,R),
+        tau = matrix(0,K,R),
+        alpha = matrix(1,K,R),
+        beta = matrix(1,K,R),
+        Cs = sample(1:K, nrow(x), replace = T),
+        Ds = sample(1:R, ncol(x), replace = T),
+    )
+spartaco(x = x, coordinates = coordinates, K = K, R = R, input.values = input.values)     
+```
+
+The estimation can be run also starting from a previous output.
+
+```r 
+res <- spartaco(x = x, coordinates = coordinates, K = K, R = R, max.iter = 10^3)
+res2 <- spartaco(x = x, coordinates = coordinates, K = K, R = R, max.iter = 10^3, input.values = res)
+```
