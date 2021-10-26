@@ -22,7 +22,7 @@ main <- function(x, Dist,
             cur.phi <- best.phi <- input.values$phi
             cur.mu <- best.mu <- input.values$mu
             cur.tau <- best.tau <- input.values$tau
-            cur.xi <- best.xi <- input.values$xi
+            cur.xi <- best.xi <- traceRatio - best.tau
             cur.alpha <- best.alpha <- input.values$alpha
             cur.beta <- best.beta <- input.values$beta}
     Cs <- matrix(0, nrow(x), max.iter)
