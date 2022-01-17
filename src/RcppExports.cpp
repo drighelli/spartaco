@@ -6,21 +6,41 @@
 
 using namespace Rcpp;
 
-// logLCoclusterC
-double logLCoclusterC(arma::Mat<double> x, double Mu, double Tau, double Xi, double Alpha, double Beta, arma::Mat<double> U, arma::rowvec d);
-RcppExport SEXP _spartaco_logLCoclusterC(SEXP xSEXP, SEXP MuSEXP, SEXP TauSEXP, SEXP XiSEXP, SEXP AlphaSEXP, SEXP BetaSEXP, SEXP USEXP, SEXP dSEXP) {
+// table_cpp
+Rcpp::List table_cpp(arma::vec v, bool sort_data);
+RcppExport SEXP _spartaco_table_cpp(SEXP vSEXP, SEXP sort_dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::Mat<double> >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type Mu(MuSEXP);
-    Rcpp::traits::input_parameter< double >::type Tau(TauSEXP);
-    Rcpp::traits::input_parameter< double >::type Xi(XiSEXP);
-    Rcpp::traits::input_parameter< double >::type Alpha(AlphaSEXP);
-    Rcpp::traits::input_parameter< double >::type Beta(BetaSEXP);
-    Rcpp::traits::input_parameter< arma::Mat<double> >::type U(USEXP);
-    Rcpp::traits::input_parameter< arma::rowvec >::type d(dSEXP);
-    rcpp_result_gen = Rcpp::wrap(logLCoclusterC(x, Mu, Tau, Xi, Alpha, Beta, U, d));
+    Rcpp::traits::input_parameter< arma::vec >::type v(vSEXP);
+    Rcpp::traits::input_parameter< bool >::type sort_data(sort_dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(table_cpp(v, sort_data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MetropolisAllocationC
+double MetropolisAllocationC(arma::mat x, arma::vec Cs, arma::vec Ds, Rcpp::List Uglob, arma::vec Dglob, arma::mat Dist, arma::mat Mu, arma::mat Tau, arma::mat Xi, arma::mat Alpha, arma::mat Beta, arma::vec Phi, int maxit, int min_obs, Rcpp::NumericVector prob_choices, bool print_info);
+RcppExport SEXP _spartaco_MetropolisAllocationC(SEXP xSEXP, SEXP CsSEXP, SEXP DsSEXP, SEXP UglobSEXP, SEXP DglobSEXP, SEXP DistSEXP, SEXP MuSEXP, SEXP TauSEXP, SEXP XiSEXP, SEXP AlphaSEXP, SEXP BetaSEXP, SEXP PhiSEXP, SEXP maxitSEXP, SEXP min_obsSEXP, SEXP prob_choicesSEXP, SEXP print_infoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Cs(CsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Ds(DsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type Uglob(UglobSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Dglob(DglobSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Dist(DistSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Mu(MuSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Tau(TauSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Xi(XiSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Alpha(AlphaSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Beta(BetaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Phi(PhiSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< int >::type min_obs(min_obsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type prob_choices(prob_choicesSEXP);
+    Rcpp::traits::input_parameter< bool >::type print_info(print_infoSEXP);
+    rcpp_result_gen = Rcpp::wrap(MetropolisAllocationC(x, Cs, Ds, Uglob, Dglob, Dist, Mu, Tau, Xi, Alpha, Beta, Phi, maxit, min_obs, prob_choices, print_info));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -69,7 +89,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_spartaco_logLCoclusterC", (DL_FUNC) &_spartaco_logLCoclusterC, 8},
+    {"_spartaco_table_cpp", (DL_FUNC) &_spartaco_table_cpp, 2},
+    {"_spartaco_MetropolisAllocationC", (DL_FUNC) &_spartaco_MetropolisAllocationC, 16},
     {"_spartaco_rcpparma_hello_world", (DL_FUNC) &_spartaco_rcpparma_hello_world, 0},
     {"_spartaco_rcpparma_outerproduct", (DL_FUNC) &_spartaco_rcpparma_outerproduct, 1},
     {"_spartaco_rcpparma_innerproduct", (DL_FUNC) &_spartaco_rcpparma_innerproduct, 1},

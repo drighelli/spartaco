@@ -22,6 +22,7 @@ MetropolisAllocation <- function(x, Cs, Ds,
   logL.values <- matrix(0,K,R)
   for(r in 1:R){
     for(k in 1:K){
+      cat("r: ", r, " k: ", k, "\n")
       logL.values[k,r] <- logL.Cocluster(x = x[Cs == k, Ds == r], Mu = Mu[k,r], Tau = Tau[k,r], Xi = Xi[k,r], Alpha = Alpha[k,r],
                                          Beta = Beta[k,r], U = Uglob[[r]], d = Dglob[Ds == r])
     }

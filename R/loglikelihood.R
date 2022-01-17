@@ -1,14 +1,25 @@
 logL.Cocluster <- function(x, Mu, Tau, Xi, Alpha, Beta, U, d){
   if(is.vector(x)) x <- matrix(x, nrow = 1)
+  # print(x[c(1:3, dim(x)[1]), c(1:3, dim(x)[2])])
+  # print(Mu)
+  # print(U[c(1:3, dim(U)[1]), c(1:3, dim(U)[2])])
+
   Block1 <- (x - Mu) %*% U
+  # print(Block1[c(1:3, dim(Block1)[1]), c(1:3, dim(Block1)[2])])
   invD <- 1/(Tau*d + Xi)
+  print(Alpha)
   alpha.post.i <- ncol(x)/2 + Alpha
+  print(dim(x))
+  print(alpha.post.i)
   # perhaps we need a diagonalMatrix instead of a sparseMatrix here
   beta.post.i <- diag(Block1 %*% as(diag(invD), "sparseMatrix") %*% t(Block1))/2 + Beta
-  -nrow(x)*ncol(x)/2*log(2*pi) +
+  print(beta.post.i)
+  ret <- -nrow(x)*ncol(x)/2*log(2*pi) +
     nrow(x)/2*sum(log(invD))+
     nrow(x)*(Alpha*log(Beta)-lgamma(Alpha))+
     sum(lgamma(alpha.post.i)-alpha.post.i*log(beta.post.i))
+  print(ret)
+  return(ret)
 }
 
 logL.Cocluster.single <- function(x, Mu, Tau, Xi, Alpha, Beta, U, d){

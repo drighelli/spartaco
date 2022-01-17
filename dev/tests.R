@@ -26,11 +26,11 @@ table(res$Ds, old_res$Ds)
 
 #### Metropolis tests
 #### input main
-x<-Simulation$x
+x <- Simulation$x
 K=2
 R=2
-coordinates<-Simulation$coordinates
-Dist<-Dist
+coordinates <- Simulation$coordinates
+Dist < -Dist
 traceRatio = 10
 max.iter = 10
 metropolis.iterations = 150
@@ -52,6 +52,23 @@ Phi = cur.phi
 maxit = metropolis.iterations
 min.obs = 3
 
+
+MetropolisAllocationC(x = x,
+Uglob = Uglob,
+Dglob = Dglob,
+Cs = cur.Cs,
+Ds = cur.Ds,
+Dist = Dist,
+Mu = cur.mu,
+Tau = cur.tau,
+Xi = cur.xi,
+Alpha = cur.alpha,
+Beta = cur.beta,
+Phi = cur.phi,
+maxit = metropolis.iterations,
+min_obs = 3,
+prob_choices=c(1/2,1/2)
+)
 
 ## logcoclustR
 x = x[Cs == k, Ds.star == r];
