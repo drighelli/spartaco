@@ -104,12 +104,20 @@ double MetropolisAllocationC(arma::mat x,
     // converting indexes in C++ format, starting from 0
     Cs = Cs -1;
     Ds = Ds -1;
-    arma::vec Kvec=unique(Cs);
-    arma::vec Rvec=unique(Ds);
-    int K=Kvec.n_elem;
-    int R=Rvec.n_elem;
+    arma::vec Kvec=unique(Cs); // <----
+    arma::vec Rvec=unique(Ds); // <----
+    int K=0;
+    if (Mu.is_vec())
+    {
+        K=1;
+    } else {
+        K=Mu.n_rows;
+    }
+    int R=Phi.n_elem;
+    // int K=Kvec.n_elem;
+    // int R=Rvec.n_elem;
 
-    // Check if vectors
+    // Check if vectors missing -> how to check if it's a vector?
 
     arma::vec D = table_cpp(Ds)["lengths"];
     arma::vec Ds_init = Ds;
@@ -117,11 +125,18 @@ double MetropolisAllocationC(arma::mat x,
     Rcpp::NumericVector m_list (maxit); //accepted equal to this ones?
     arma::mat logL_values = arma::mat(K, R, arma::fill::zeros);
 
-    for (int r=0; r<R; r++) {
-        for (int k=0; k<K; k++) {
+    arma::vec goodK=arma::sort(Kvec);
+    arma::vec goodR=arma::sort(Rvec);
+
+
+    for (int rit=0; rit<goodR.n_elem; rit++) {
+        for (int kit=0; kit<goodK.n_elem; kit++) {
+            int r=goodR[rit];
+            int k=goodK[kit];
             arma::uvec csk = find(Cs==k);
             arma::uvec dsr = find(Ds==r);
             arma::mat Ur = Uglob[r];
+
             logL_values(k,r) = logLCoclusterC(x(csk, dsr),
                 Mu(k,r), Tau(k,r), Xi(k,r),
                 Alpha(k,r), Beta(k,r),
@@ -135,17 +150,23 @@ double MetropolisAllocationC(arma::mat x,
     for (int iter=0; iter<maxit; iter++) {
         Rcpp::NumericVector m = Rcpp::RcppArmadillo::sample(
             Rcpp::NumericVector::create(1, 2, 3), 1, 0,
-            Rcpp::NumericVector::create(0.7,0.2,0.1)); // MISSING M.LIST[ITER]
+            Rcpp::NumericVector::create(0.7, 0.2, 0.1)); // MISSING M.LIST[ITER] <---- is this a matrix?
 
         Rcpp::CharacterVector move = Rcpp::RcppArmadillo::sample(
             Rcpp::CharacterVector::create("sasd", "mamd"), 1, 0,
-            prob_choices
-        );
+            prob_choices);
         // Rcpp::Rcout << move << "\n";
         std::string move1 = Rcpp::as<std::string>(move);
         if ( move1 == "sasd" ) {
             Rcout << move1 << "\n";
             if(print_info) Rcout << "Trying sasd with " << m << " moves\n";
+
+            int gr_start = Rcpp::RcppArmadillo::sample(
+                Rcpp::NumericVector::create(arma::linspace(1, D.n_elem)), 1, 0)[1];
+
+            int gr_end = Rcpp::RcppArmadillo::sample(
+                Rcpp::NumericVector::create(arma::linspace(1, D.n_elem)), 1, 0)[1];
+                setdiff(arma::linspace(1, D.n_elem), gr_start);
             // TO WORK ON
         }
     }
