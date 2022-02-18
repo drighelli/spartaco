@@ -89,7 +89,7 @@ double logLCoclusterC(arma::mat x,
 }
 #include <RcppArmadilloExtensions/sample.h>
 // [[Rcpp::export]]
-double MetropolisAllocationC(arma::mat x,
+double MetropolisAllocationC(NumericMatrix x,
     arma::vec Cs, arma::vec Ds,
     Rcpp::List Uglob, // list of matrices of length R, contains the matrices of eigenvec
     arma::vec Dglob, // vector of length p, contains the eigenval
